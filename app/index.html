@@ -1,0 +1,43 @@
+---
+title: Boostrap Index
+layout: ./app/layout.ejs
+engine: ejs
+current: index
+---
+
+<div class="container" id="vm">
+  <h1 class="index__h1">test vue3</h1>
+  <div>
+    <ul class="row list-unstyled">
+      <li class="col-4" v-for="(item,key) in info" :key="item.name">
+        <div class="card h-100">
+          <img :src="item.imgUrl" class="card-img-top" alt="item.name" />
+          <div class="card-body">
+            <h5 class="card-title">{{item.name}}</h5>
+            <p class="card-text">{{item.description}}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          info: [],
+        };
+      },
+      mounted() {
+        axios
+          .get(
+            "https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json"
+          )
+          .then((response) => (this.info = response.data.data))
+          .catch(function (error) {
+            // 请求失败处理
+            console.log(error);
+          });
+      },
+    }).mount("#vm");
+  </script>
+</div>
